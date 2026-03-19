@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual env
+venv/
+.env/
+
+# Secrets
+.env
+config.json
+secrets.json
+
+# Logs
+logs/
+*.log
+
+# Images
+uploads/
+images/

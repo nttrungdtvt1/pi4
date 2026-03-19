@@ -1,0 +1,41 @@
+
+[Unit]
+Description=Smart Door AI Controller Service
+# Chỉ chạy sau khi mạng Wi-Fi và đồng hồ thời gian đã sẵn sàng
+After=network.target network-online.target systemd-timesyncd.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Thay 'pi' bằng username thực tế của bạn trên Raspberry Pi (Ví dụ: admin, ubuntu)
+User=pi
+Group=pi
+
+# Cấp quyền truy cập phần cứng:
+# video (camera), dialout (UART/Serial giao tiếp STM32), gpio (chân I/O)
+SupplementaryGroups=video dialout gpio
+
+# ==============================================================
+# LƯU Ý QUAN TRỌNG VỀ ĐƯỜNG DẪN
+# Sửa 'smart_door_system' thành tên thư mục dự án thực tế của bạn
+# ==============================================================
+WorkingDirectory=/home/pi/smart_door_system
+
+# Lệnh thực thi: Đã trả về đúng môi trường ảo 'door' của bạn
+ExecStart=/home/pi/smart_door_system/door/bin/python main.py
+
+# Tính năng "Self-healing": Tự động khởi động lại sau 5 giây nếu app bị văng (crash)
+Restart=always
+RestartSec=5
+
+# Đẩy log của các lệnh print() ra system journal (log chuẩn của Linux)
+# Lệnh xem log trực tiếp: journalctl -u smart-door.service -f
+StandardOutput=journal
+StandardError=journal
+
+# Cấu hình để code Python không đệm (buffer) output, giúp in log ra terminal ngay lập tức
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+# Chế độ khởi động cùng hệ thống ở mức multi-user (có mạng, không cần GUI màn hình)
+WantedBy=multi-user.target
