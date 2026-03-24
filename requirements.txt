@@ -3,14 +3,14 @@
 # 1. Bất đồng bộ, Môi trường & Web Server
 aiohttp==3.9.3
 aiohttp-cors==0.7.0
-pydantic==2.6.3
-pydantic-settings==2.2.1
+pydantic>=2.9.0
+pydantic-settings>=2.5.0
 
 # 2. Giao tiếp phần cứng
 pyserial==3.5
 
 # 3. Xử lý ảnh & AI
-numpy>=1.24.0
+numpy==1.26.4
 # Dùng opencv-python-headless trên Pi để tránh lỗi thiếu thư viện giao diện (GUI X11)
 opencv-python-headless==4.9.0.80
 face_recognition==1.3.0
